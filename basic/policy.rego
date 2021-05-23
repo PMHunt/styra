@@ -11,10 +11,7 @@ allow {
 
 # only employees can get /cars/{carid}
 allow {
-  input.path[0] == "cars"
-  input.path[1]
-  count(input.path) <= 2
-  input.method == "GET"
+  request_is_get_status
   user_is_employee
 }
 
@@ -38,4 +35,11 @@ user_is_employee {
 
 user_is_manager {
     users[_].manager == input.user
+}
+
+request_is_get_status {
+  input.path[0] == "cars"
+  input.path[1]
+  count(input.path) <= 2
+  input.method == "GET"
 }
